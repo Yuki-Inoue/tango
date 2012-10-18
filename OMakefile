@@ -1,0 +1,5 @@
+
+CXX = c++
+LDFLAGS += -lboost_serialization -lboost_date_time
+
+CXXProgram(tango, card cardlist commandline_tango)
