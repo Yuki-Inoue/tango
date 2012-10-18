@@ -1,0 +1,6 @@
+A Flash Card System in C++.
+
+
+card.hh: defines class Card. represents a card.
+cardlist.hh: defines class Cardlist. represents a card list.
+command_tango.cpp : commandline implementation of card system.
