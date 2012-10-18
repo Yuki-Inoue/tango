@@ -21,10 +21,9 @@
   nexptime:
 	next date this card expires.
   crct:
-	連続正解回数。
+        # of continued correct answer
 
-  nexptime の早い順に card はリストになっているものとする。
-  つまり、 time_t の小さい順
+  cards are ordered in the nexptime order
  */
 
 
