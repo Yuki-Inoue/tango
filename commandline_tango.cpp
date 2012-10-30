@@ -53,6 +53,10 @@ void printOptions(ostream &os, const map<Key,Value> &map){
   return;
 }
 
+CardTest::Result info(Card &card){
+  std::cout << card << std::endl;
+  return CardTest::RETRY;
+}
 
 class CardCommandMap {
   typedef map<char, CardTest::Result (*)(Card &)> Map;
@@ -65,6 +69,7 @@ public:
     map_['s'] = CardTest::skip;
     map_['q'] = CardTest::quit;
     map_['e'] = edit;
+    map_['i'] = info;
   }
 
   Map::mapped_type query(istream &is) const {
