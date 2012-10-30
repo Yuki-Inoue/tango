@@ -110,6 +110,10 @@ CardTest::Result query(Card &card){
   getline(cin, buf);
   if(!buf.compare("quit"))
     return CardTest::QUIT;
+  if(!buf.compare(card.answer_)){
+    cout << "CORRECT!" << endl;
+    return CardTest::correct(card);
+  }
 
   cout << "A: " << card.answer_ << endl;
   cout << "You got the right answer?  " << CardCommandMap::instance() << endl;
