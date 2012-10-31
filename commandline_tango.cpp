@@ -17,20 +17,20 @@ typedef FileManager<Cardlist> FiledCardlist;
 
 // query line and update if not empty
 // if queried line is empty, then don't update.
-void qlineupdateifne(Card &card, string &cardstr){
+void qlineupdateifne(string &target){
   string str;
   getline(cin,str);
   if(!str.empty())
-    cardstr = str;
+    target = str;
 }
 
 static CardTest::Result edit(Card &card){
   cout << "change the question" << endl
        << card.question_ << " to: " << flush;
-  qlineupdateifne(card, card.question_);
+  qlineupdateifne(card.question_);
   cout << "change the answer" << endl
        << card.answer_ << " to: " << flush;
-  qlineupdateifne(card, card.answer_);
+  qlineupdateifne(card.answer_);
   return CardTest::RETRY;
 }
 
