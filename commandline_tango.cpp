@@ -111,7 +111,7 @@ CardTest::Result query(Card &card){
   if(!buf.compare("quit"))
     return CardTest::QUIT;
   if(!buf.compare(card.answer_)){
-    cout << "CORRECT!" << endl;
+    cout << "CORRECT!\n" << endl;
     return CardTest::correct(card);
   }
 
