@@ -4,7 +4,6 @@
 #include <string>
 
 
-#include <boost/shared_ptr.hpp>
 #include <boost/operators.hpp>
 
 #include <boost/serialization/access.hpp>
@@ -54,7 +53,7 @@ public:
     nexptime_(nexptime), crct_(0) {}
 
   Card(const std::string &question, const std::string &answer,
-       int crct = 0,
+       unsigned crct = 0,
        boost::posix_time::ptime nexptime
        = boost::posix_time::second_clock::local_time())
     : nexptime_(nexptime), crct_(crct),
@@ -95,7 +94,7 @@ public:
   // members
 private:
   boost::posix_time::ptime nexptime_;
-  int crct_;
+  unsigned crct_;
 public:
   std::string question_;
   std::string answer_;
