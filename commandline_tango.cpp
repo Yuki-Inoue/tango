@@ -103,16 +103,23 @@ public:
 
 CardTest::Result query(Card &card){
 
-  cout << "Q: " << card.question_ << endl;
-  cout << "(press RET to see answer. Other keys ignored, except for 'quit')" << endl;
+  static const string quit = "quit";
+  static const string skip = "skip";
+
+  cout << "Q: " << card.question_ << '\n'
+       << "(press RET to see answer. Other keys ignored, except for '" << quit << "' and '" << skip << "')" << endl;
 
   string buf;
   getline(cin, buf);
-  if(!buf.compare("quit"))
+  if(!buf.compare(quit))
     return CardTest::QUIT;
   if(!buf.compare(card.answer_)){
     cout << "CORRECT!\n" << endl;
     return CardTest::correct(card);
+  }
+  if(!buf.compare(skip)){
+    cout << endl;
+    return CardTest::CONTINUE;
   }
 
   cout << "A: " << card.answer_ << endl;
