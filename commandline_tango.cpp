@@ -25,10 +25,10 @@ void qlineupdateifne(string &target){
 }
 
 static CardTest::Result edit(Card &card){
-  cout << "change the question" << endl
+  cout << "change the question" << '\n'
        << card.question_ << " to: " << flush;
   qlineupdateifne(card.question_);
-  cout << "change the answer" << endl
+  cout << "change the answer" << '\n'
        << card.answer_ << " to: " << flush;
   qlineupdateifne(card.answer_);
   return CardTest::RETRY;
@@ -132,14 +132,14 @@ CardTest::Result query(Card &card){
 
 bool makeCardCommand(FiledCardlist &cl){
   Card card;
-  cout << "making a card.\n";
 
-  cout << "\tQuestion: " << flush;
+  cout << "making a card.\n"
+       << "\tQuestion: " << flush;
   getline(cin, card.question_);
   if(card.question_.empty())
     goto ERROR;
 
-  cout << "\tAnswer  : ";
+  cout << "\tAnswer  : " << flush;
   getline(cin, card.answer_);
   if(card.answer_.empty())
     goto ERROR;
@@ -149,7 +149,7 @@ bool makeCardCommand(FiledCardlist &cl){
   return true;
 
  ERROR:
-  printf("Failed making card\n");
+  cout << "Failed making card" << endl;
   return true;
 }
 
@@ -202,7 +202,7 @@ public:
     string str;
     Map::mapped_type result;
     while(true){
-      cout << "> ";
+      cout << "> " << flush;
       getline(cin, str);
       Map::iterator it = map_.find(str);
       if(it != map_.end()) {
