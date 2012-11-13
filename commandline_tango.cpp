@@ -122,8 +122,8 @@ CardTest::Result query(Card &card){
     return CardTest::CONTINUE;
   }
 
-  cout << "A: " << card.answer_ << endl;
-  cout << "You got the right answer?  " << CardCommandMap::instance() << endl;
+  cout << "A: " << card.answer_ << '\n'
+       << "You got the right answer?  " << CardCommandMap::instance() << endl;
 
   return CardCommandMap::instance().query(cin)(card);
 }
@@ -173,7 +173,7 @@ bool listCommand(FiledCardlist &cl){
 }
 
 bool infoCommand(FiledCardlist &cl){
-  cout << "# of cards: " << cl.size() << endl
+  cout << "# of cards: " << cl.size() << '\n'
        << "nexptime  : " << cl.nexptime() << endl;
   return true;
 }
