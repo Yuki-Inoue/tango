@@ -1,0 +1,4 @@
+*.o
+*.omc
+.omake*
+tango
