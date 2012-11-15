@@ -228,15 +228,16 @@ int main(int argc, char *argv[]){
   srand(time(0));
 
   if(argc == 1){
-    cerr << "usage: " << argv[0] << " <archive>" << endl;
+    cerr << "usage: " << argv[0] << " <archive(s)>" << endl;
     return 1;
   }
 
-  FiledCardlist cl(argv[1]);
+  for(int i=1; i<argc; ++i){
+    cout << "archive of " << argv[i] << endl;
+    FiledCardlist cl(argv[i]);
+    cl.read();
+    while(CommandMap::instance().query()(cl));
+  }
 
-
-  cl.read();
-
-  while(CommandMap::instance().query()(cl));
   return 0;
 }
