@@ -178,6 +178,14 @@ bool infoCommand(FiledCardlist &cl){
   return true;
 }
 
+bool searchCommand(FiledCardlist &cl){
+  string query;
+  cout << "\tquery: " << flush;
+  getline(cin, query);
+  cl.search(query);
+  return true;
+}
+
 
 class CommandMap {
   typedef map<string, bool (*)(FiledCardlist &)> Map;
@@ -190,6 +198,7 @@ class CommandMap {
     map_["m"] = makeCardCommand;
     map_["l"] = listCommand;
     map_["i"] = infoCommand;
+    map_["s"] = searchCommand;
   }
 
 public:

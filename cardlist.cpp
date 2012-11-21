@@ -7,29 +7,18 @@ using namespace std;
 using namespace boost::posix_time;
 
 
-void Cardlist::test(){
-  list<Card>::iterator it = l_.begin(), itend = l_.end(), ittemp;
-  list<Card> updated;
-  bool finish_flag = false;
-  while( !finish_flag && it!=itend && it->expired() ){
-    switch(query(*it)) {
-    case CardTest::CONTINUE:
-      ittemp = it++;
-      updated.splice
-	(std::lower_bound
-	 (updated.begin(), updated.end(), *ittemp), l_, ittemp);
-      break;
-    case CardTest::DELETE:
-      l_.erase(it++);
-      break;
-    case CardTest::QUIT:
-      finish_flag = true;
-      break;
-    case CardTest::RETRY:
-      break;
+
+
+void Cardlist::search(const string &str){
+  class finder {
+    const string *ptr;
+  public:
+    finder(const string &str) : ptr(&str) {}
+    bool operator()(const Card &card) {
+      return card.question_.find(*ptr) != string::npos;
     }
-  }
-  l_.merge(updated);
+  };
+  operate(finder(str), always_true);
 }
 
 
