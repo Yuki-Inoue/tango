@@ -1,6 +1,7 @@
 
 #include "cardlist.hh"
 #include "file_manager.hpp"
+#include <commandmap.hpp>
 
 #include <string>
 #include <map>
@@ -15,51 +16,9 @@ using namespace boost;
 typedef FileManager<Cardlist> FiledCardlist;
 
 
-template <class Value>
-void printOptions(ostream &os, const map<std::string,Value> &map){
-  os << '(';
-  typename std::map<std::string,Value>::const_iterator it = map.begin(), itend = map.end();
-  if( itend == it ) {
-    os << ')';
-    return;
-  }
-  --itend;
-  for(; it!=itend; ++it){
-    os << it->first << '/';
-  }
-  os << it->first << ')';
-  return;
-}
 
-template <class CommandPtr>
-class CommandMap {
-  typedef map<std::string, CommandPtr> Map;
 
-protected:
-  Map map_;
 
-public:
-  CommandPtr query(const std::string prompt = "> ") const {
-    string str;
-    CommandPtr result;
-    while(true){
-      cout << prompt << flush;
-      getline(cin, str);
-      typename Map::const_iterator it = map_.find(str);
-      if(it != map_.end()) {
-	result = it->second;
-	break;
-      }
-      cout << "error! valid commands are: " << *this << endl;
-    }
-    return result;
-  }
-
-  friend ostream &operator<<(ostream &os, const CommandMap &cmap){
-    printOptions(os, cmap.map_);
-    return os;
-  }
-};
 
 
 
