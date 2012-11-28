@@ -15,6 +15,54 @@ using namespace boost;
 typedef FileManager<Cardlist> FiledCardlist;
 
 
+template <class Value>
+void printOptions(ostream &os, const map<std::string,Value> &map){
+  os << '(';
+  typename std::map<std::string,Value>::const_iterator it = map.begin(), itend = map.end();
+  if( itend == it ) {
+    os << ')';
+    return;
+  }
+  --itend;
+  for(; it!=itend; ++it){
+    os << it->first << '/';
+  }
+  os << it->first << ')';
+  return;
+}
+
+template <class CommandPtr>
+class CommandMap {
+  typedef map<std::string, CommandPtr> Map;
+
+protected:
+  Map map_;
+
+public:
+  CommandPtr query() const {
+    string str;
+    CommandPtr result;
+    while(true){
+      cout << "> " << flush;
+      getline(cin, str);
+      typename Map::const_iterator it = map_.find(str);
+      if(it != map_.end()) {
+	result = it->second;
+	break;
+      }
+      cout << "error! valid commands are: " << *this << endl;
+    }
+    return result;
+  }
+
+  friend ostream &operator<<(ostream &os, const CommandMap &cmap){
+    printOptions(os, cmap.map_);
+    return os;
+  }
+};
+
+
+
 // query line and update if not empty
 // if queried line is empty, then don't update.
 void qlineupdateifne(string &target){
@@ -35,70 +83,33 @@ static CardTest::Result edit(Card &card){
 }
 
 
-template <class Key, class Value>
-void printOptions(ostream &os, const map<Key,Value> &map){
-  os << '(';
-  typename std::map<Key,Value>::const_iterator it = map.begin(), itend = map.end();
-
-  if( itend == it ) {
-    os << ')';
-    return;
-  }
-  
-  --itend;
-  for(; it!=itend; ++it){
-    os << it->first << '/';
-  }
-  os << it->first << ')';
-  return;
-}
 
 CardTest::Result info(Card &card){
   std::cout << card << std::endl;
   return CardTest::RETRY;
 }
 
-class CardCommandMap {
-  typedef map<char, CardTest::Result (*)(Card &)> Map;
-  Map map_;
-public:
+
+class CardCommandMap : public CommandMap<CardTest::Result (*)(Card &)> {
+
   CardCommandMap(){
-    map_['y'] = CardTest::correct;
-    map_['n'] = CardTest::wrong;
-    map_['x'] = CardTest::deleteCard;
-    map_['s'] = CardTest::skip;
-    map_['q'] = CardTest::quit;
-    map_['e'] = edit;
-    map_['i'] = info;
+    map_["y"] = CardTest::correct;
+    map_["n"] = CardTest::wrong;
+    map_["x"] = CardTest::deleteCard;
+    map_["s"] = CardTest::skip;
+    map_["q"] = CardTest::quit;
+    map_["e"] = edit;
+    map_["i"] = info;
   }
 
-  Map::mapped_type query(istream &is) const {
-    char c;
-    Map::const_iterator result;
-    while(true){
-      c = is.get();
-      result = map_.find(c);
-      if(result != map_.end())
-	break;
-    }
-    while(is.get()!='\n'); // remove tailing \n
-    return result->second;
-  }
+public:
 
   static const CardCommandMap &instance(){
     static CardCommandMap inst;
     return inst;
   }
 
-  friend ostream &operator<<(ostream &os, const CardCommandMap &cmap){
-    printOptions(os, cmap.map_);
-    return os;
-  }
 };
-
-
-
-
 
 
 CardTest::Result query(Card &card){
@@ -125,7 +136,7 @@ CardTest::Result query(Card &card){
   cout << "A: " << card.answer_ << '\n'
        << "You got the right answer?  " << CardCommandMap::instance() << endl;
 
-  return CardCommandMap::instance().query(cin)(card);
+  return CardCommandMap::instance().query()(card);
 }
 
 
@@ -192,11 +203,9 @@ bool searchCommand(FiledCardlist &cl){
 }
 
 
-class CommandMap {
-  typedef map<string, bool (*)(FiledCardlist &)> Map;
-  Map map_;
+class CardlistCommandMap : public CommandMap<bool (*)(FiledCardlist &)> {
 
-  CommandMap(){
+  CardlistCommandMap(){
     map_["w"] = writeCommand;
     map_["q"] = quitCommand;
     map_["wq"] = writeQuitCommand;
@@ -208,30 +217,9 @@ class CommandMap {
   }
 
 public:
-  static CommandMap &instance() {
-    static CommandMap inst;
+  static CardlistCommandMap &instance() {
+    static CardlistCommandMap inst;
     return inst;
-  }
-
-  Map::mapped_type query(){
-    string str;
-    Map::mapped_type result;
-    while(true){
-      cout << "> " << flush;
-      getline(cin, str);
-      Map::iterator it = map_.find(str);
-      if(it != map_.end()) {
-	result = it->second;
-	break;
-      }
-      cout << "error! valid commands are: " << CommandMap::instance() << endl;
-    }
-    return result;
-  }
-
-  friend ostream &operator<<(ostream &os, const CommandMap &cmap){
-    printOptions(os, cmap.map_);
-    return os;
   }
 };
 
@@ -251,7 +239,7 @@ int main(int argc, char *argv[]){
     cout << "archive of " << argv[i] << endl;
     FiledCardlist cl(argv[i]);
     cl.read();
-    while(CommandMap::instance().query()(cl));
+    while(CardlistCommandMap::instance().query()(cl));
   }
 
   return 0;
