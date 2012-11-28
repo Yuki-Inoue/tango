@@ -167,6 +167,11 @@ bool quitCommand(FiledCardlist &){
   return false;
 }
 
+bool writeQuitCommand(FiledCardlist &cl){
+  cl.write();
+  return false;
+}
+
 bool listCommand(FiledCardlist &cl){
   cout << cl;
   return true;
@@ -194,6 +199,7 @@ class CommandMap {
   CommandMap(){
     map_["w"] = writeCommand;
     map_["q"] = quitCommand;
+    map_["wq"] = writeQuitCommand;
     map_["t"] = testCommand;
     map_["m"] = makeCardCommand;
     map_["l"] = listCommand;
