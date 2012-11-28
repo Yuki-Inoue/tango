@@ -39,11 +39,11 @@ protected:
   Map map_;
 
 public:
-  CommandPtr query() const {
+  CommandPtr query(const std::string prompt = "> ") const {
     string str;
     CommandPtr result;
     while(true){
-      cout << "> " << flush;
+      cout << prompt << flush;
       getline(cin, str);
       typename Map::const_iterator it = map_.find(str);
       if(it != map_.end()) {
@@ -136,7 +136,7 @@ CardTest::Result query(Card &card){
   cout << "A: " << card.answer_ << '\n'
        << "You got the right answer?  " << CardCommandMap::instance() << endl;
 
-  return CardCommandMap::instance().query()(card);
+  return CardCommandMap::instance().query("")(card);
 }
 
 
