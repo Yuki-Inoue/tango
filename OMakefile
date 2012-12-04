@@ -1,5 +1,6 @@
 
 CXX = c++
+LDFLAGS += -L/opt/local/lib
 LDFLAGS += -lboost_serialization -lboost_date_time
 INCLUDES += ../cpplib
 
