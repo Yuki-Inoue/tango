@@ -16,8 +16,6 @@ void Card::correctUpdate(){
 
 void Card::wrongUpdate(){
   crct_ = 0;
-  ptime current(second_clock::local_time());
-  nexptime_ = current - seconds(1);
 }
 
 void Card::anneal(){

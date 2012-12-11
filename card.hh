@@ -116,20 +116,20 @@ private:
 
 
 namespace CardTest {
-  enum Result { CONTINUE, QUIT, DELETE, RETRY };
+  enum Result { SUCCESS, FAIL, QUIT, DELETE, RETRY };
   inline Result correct(Card &card) {
     card.correctUpdate();
-    return CONTINUE;
+    return SUCCESS;
   }
   inline Result wrong(Card &card) {
     card.wrongUpdate();
-    return CONTINUE;
+    return FAIL;
   }
   inline Result deleteCard(Card &) {
     return DELETE;
   }
   inline Result skip(Card &) {
-    return CONTINUE;
+    return FAIL;
   }
   inline Result quit(Card &) {
     return QUIT;

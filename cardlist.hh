@@ -75,11 +75,14 @@ void Cardlist::operate(F1 do_test, F2 do_continue){
       continue;
     }
     switch(query(*it)) {
-    case CardTest::CONTINUE:
+    case CardTest::SUCCESS:
       ittemp = it++;
       updated.splice
 	(std::lower_bound
 	 (updated.begin(), updated.end(), *ittemp), l_, ittemp);
+      break;
+    case CardTest::FAIL:
+      ++it;
       break;
     case CardTest::DELETE:
       l_.erase(it++);
