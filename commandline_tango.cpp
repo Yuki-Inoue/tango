@@ -82,14 +82,14 @@ CardTest::Result query(Card &card){
   string buf;
   getline(cin, buf);
   if(!buf.compare(quit))
-    return CardTest::QUIT;
+    return CardTest::quit(card);
   if(!buf.compare(card.answer_)){
     cout << "CORRECT!\n" << endl;
     return CardTest::correct(card);
   }
   if(!buf.compare(skip)){
     cout << endl;
-    return CardTest::CONTINUE;
+    return CardTest::skip(card);
   }
 
   cout << "A: " << card.answer_ << '\n'
