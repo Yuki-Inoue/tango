@@ -198,6 +198,7 @@ int main(int argc, char *argv[]){
     cout << "archive of " << argv[i] << endl;
     FiledCardlist cl(argv[i]);
     cl.read();
+    do cout << "# of expired: " << cl.expnum() << endl;
     while(CardlistCommandMap::instance().query()(cl));
   }
 

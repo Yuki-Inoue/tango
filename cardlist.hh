@@ -47,6 +47,7 @@ public:
 public:
   std::list<Card>::size_type size() const { return l_.size(); }
   boost::posix_time::ptime nexptime() const { return l_.front().getNexptime(); }
+  std::list<Card>::size_type expnum() const;
 
 
 

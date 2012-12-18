@@ -8,6 +8,15 @@ using namespace boost::posix_time;
 
 
 
+list<Card>::size_type Cardlist::expnum() const{
+  const list<Card>::const_iterator itend = l_.end();
+  list<Card>::const_iterator it;
+  const ptime current = second_clock::local_time();
+  list<Card>::size_type n = 0;
+  for(it=l_.begin(); it->getNexptime() < current && it!=itend; ++it)
+    ++n;
+  return n;
+}
 
 void Cardlist::search(const string &str){
   class finder {
