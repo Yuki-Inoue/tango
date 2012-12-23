@@ -199,7 +199,7 @@ int main(int argc, char *argv[]){
     FiledCardlist cl(argv[i]);
     cl.read();
     // consider as test all mode
-    if(cl.expnum() == 0 && argc > 2){
+    if(expired(cl) && argc > 2){
       cout << "skipping this archive since no expired card\n" << endl;
       continue;
     }

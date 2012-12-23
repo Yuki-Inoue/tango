@@ -59,6 +59,11 @@ private:
 
 };
 
+inline bool expired(const Cardlist &l){
+  return l.nexptime() <
+    ptime(boost::posix_time::second_clock::local_time());
+}
+
 
 
 
