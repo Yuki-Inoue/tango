@@ -44,9 +44,13 @@ public:
 
 
   // conditions
+  // nexptime is pos_infin if empty
 public:
   std::list<Card>::size_type size() const { return l_.size(); }
-  boost::posix_time::ptime nexptime() const { return l_.front().getNexptime(); }
+  boost::posix_time::ptime nexptime() const {
+    using namespace boost::posix_time;
+    return l_.empty() ? ptime(pos_infin) : l_.front().getNexptime();
+  }
   std::list<Card>::size_type expnum() const;
 
 
@@ -60,8 +64,8 @@ private:
 };
 
 inline bool expired(const Cardlist &l){
-  return l.nexptime() <
-    ptime(boost::posix_time::second_clock::local_time());
+  using namespace boost::posix_time;
+  return l.nexptime() < ptime(second_clock::local_time());
 }
 
 
