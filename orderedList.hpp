@@ -3,6 +3,7 @@
 
 #include <list>
 #include <algorithm>
+#include <utility>
 
 
 namespace mystd {
@@ -19,9 +20,16 @@ void addWithOrder(std::list<T> &l, const T &x, const Compare &compare){
   insertFirst(l, x, std::bind1st(compare, x));
 }
 
-template <class T>
-void addWithOrder(std::list<T> &l, const T &x){
-  addWithOrder(l, x, std::less<T>());
+template <class T, class Compare>
+void addWithOrder(std::list<T> &l, T &&x, const Compare &compare){
+  auto it = std::find_if
+    (l.begin(), l.end(), std::bind1st(compare, x));
+  l.insert(it, std::move(x));
+}
+
+template <class T, class Arg>
+void addWithOrder(std::list<T> &l, Arg &&x){
+  addWithOrder(l, std::forward<Arg>(x), std::less<T>());
 }
 
 }

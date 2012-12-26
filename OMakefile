@@ -1,5 +1,15 @@
 
-CXX = c++
+
+
+#!! c++ (clang) is not working with
+#   ptime p;
+#   cin >> p;
+# this seems to be a bug of clang,
+# according to boost web site.
+
+# gcc works fine.
+#CXX = c++ -std=c++11 -stdlib=libc++
+CXX = g++-mp-4.7 -std=c++11
 LDFLAGS += -L/opt/local/lib
 LDFLAGS += -lboost_serialization -lboost_date_time
 INCLUDES += ../cpplib

@@ -39,6 +39,7 @@ public:
   void search(const std::string &str);
   template <class F1, class F2>
   void operate(F1 do_test, F2 do_continue);
+  void add(Card &&card){ mystd::addWithOrder(l_, std::move(card)); }
   void add(const Card &card){ mystd::addWithOrder(l_, card); }
 
 

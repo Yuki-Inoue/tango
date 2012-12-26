@@ -115,7 +115,7 @@ bool makeCardCommand(FiledCardlist &cl){
     goto ERROR;
 
   cout << card;
-  cl.add(card);
+  cl.add(std::move(card));
   return true;
 
  ERROR:
