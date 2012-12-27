@@ -6,11 +6,9 @@ using namespace boost::posix_time;
 
 
 list<Card>::size_type Cardlist::expnum() const{
-  const list<Card>::const_iterator itend = l_.end();
-  list<Card>::const_iterator it;
   const ptime current = second_clock::local_time();
   list<Card>::size_type n = 0;
-  for(it=l_.begin(); it->getNexptime() < current && it!=itend; ++it)
+  for(auto it=l_.begin(); it->getNexptime() < current && it!=l_.end(); ++it)
     ++n;
   return n;
 }
@@ -44,22 +42,26 @@ istream &operator>>(istream &in, Cardlist &cl){
 }
 
 
+static void success_operation(list<Card> &updated, list<Card> &on_operation, list<Card>::iterator &it){
+  auto ittemp = it++;
+  updated.splice
+    (std::lower_bound
+     (updated.begin(), updated.end(), *ittemp), on_operation, ittemp);
+}
+
 
 void Cardlist::operate(const function<bool(const Card &)> &do_test, const function<bool(const Card &)> &do_continue){
-  list<Card>::iterator it = l_.begin(), itend = l_.end(), ittemp;
+  auto it = l_.begin();
   list<Card> updated;
   bool finish_flag = false;
-  while( !finish_flag && it!=itend && do_continue(*it) ){
+  while( !finish_flag && it!=l_.end() && do_continue(*it) ){
     if( !do_test(*it) ){
       ++it;
       continue;
     }
     switch(query(*it)) {
     case CardTest::SUCCESS:
-      ittemp = it++;
-      updated.splice
-	(std::lower_bound
-	 (updated.begin(), updated.end(), *ittemp), l_, ittemp);
+      success_operation(updated, l_, it);
       break;
     case CardTest::FAIL:
       ++it;
