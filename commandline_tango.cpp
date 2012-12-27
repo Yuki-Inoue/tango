@@ -28,7 +28,7 @@ void qlineupdateifne(string &target){
   string str;
   getline(cin,str);
   if(!str.empty())
-    target = str;
+    target = std::move(str);
 }
 
 static CardTest::Result edit(Card &card){
