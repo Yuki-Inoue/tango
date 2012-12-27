@@ -1,5 +1,4 @@
 #include "cardlist.hh"
-#include <functional>
 
 using namespace std;
 using namespace boost::posix_time;
@@ -42,4 +41,38 @@ istream &operator>>(istream &in, Cardlist &cl){
   catch(Card::FailedMaking &e){
   }
   return in;
+}
+
+
+
+void Cardlist::operate(const function<bool(const Card &)> &do_test, const function<bool(const Card &)> &do_continue){
+  list<Card>::iterator it = l_.begin(), itend = l_.end(), ittemp;
+  list<Card> updated;
+  bool finish_flag = false;
+  while( !finish_flag && it!=itend && do_continue(*it) ){
+    if( !do_test(*it) ){
+      ++it;
+      continue;
+    }
+    switch(query(*it)) {
+    case CardTest::SUCCESS:
+      ittemp = it++;
+      updated.splice
+	(std::lower_bound
+	 (updated.begin(), updated.end(), *ittemp), l_, ittemp);
+      break;
+    case CardTest::FAIL:
+      ++it;
+      break;
+    case CardTest::DELETE:
+      l_.erase(it++);
+      break;
+    case CardTest::QUIT:
+      finish_flag = true;
+      break;
+    case CardTest::RETRY:
+      break;
+    }
+  }
+  l_.merge(updated);
 }
