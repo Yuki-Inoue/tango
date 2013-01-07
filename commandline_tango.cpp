@@ -22,34 +22,38 @@ typedef FileManager<Cardlist> FiledCardlist;
 
 
 
-// query line and update if not empty
-// if queried line is empty, then don't update.
-void qlineupdateifne(string &target){
-  string str;
-  getline(cin,str);
-  if(!str.empty())
-    target = std::move(str);
-}
+static CardTest::Result edit(SimpleCard &card){
 
-static CardTest::Result edit(Card &card){
-  cout << "change the question" << '\n'
-       << card.question_ << " to: " << flush;
-  qlineupdateifne(card.question_);
-  cout << "change the answer" << '\n'
-       << card.answer_ << " to: " << flush;
-  qlineupdateifne(card.answer_);
+  {
+    string buff;
+    cout << "change the question" << '\n'
+	 << card.getQuestion() << " to: " << flush;
+    getline(cin, buff);
+    if(!buff.empty())
+      card.setQuestion(std::move(buff));
+  }
+
+  {
+    string buff;
+    cout << "change the answer" << '\n'
+	 << card.getAnswer() << " to: " << flush;
+    getline(cin, buff);
+    if(!buff.empty())
+      card.setAnswer(std::move(buff));
+  }
+
   return CardTest::RETRY;
 }
 
 
 
-CardTest::Result info(Card &card){
+CardTest::Result info(SimpleCard &card){
   std::cout << card << std::endl;
   return CardTest::RETRY;
 }
 
 
-class CardCommandMap : public CommandMap<CardTest::Result (*)(Card &)> {
+class CardCommandMap : public CommandMap<CardTest::Result (*)(SimpleCard &)> {
 
   CardCommandMap(){
     map_["y"] = CardTest::correct;
@@ -71,19 +75,19 @@ public:
 };
 
 
-CardTest::Result query(Card &card){
+CardTest::Result query(SimpleCard &card){
 
   static const string quit = "quit";
   static const string skip = "skip";
 
-  cout << "Q: " << card.question_ << '\n'
+  cout << "Q: " << card.getQuestion() << '\n'
        << "(press RET to see answer. Other keys ignored, except for '" << quit << "' and '" << skip << "')" << endl;
 
   string buf;
   getline(cin, buf);
   if(!buf.compare(quit))
     return CardTest::quit(card);
-  if(!buf.compare(card.answer_)){
+  if(!buf.compare(card.getAnswer())){
     cout << "CORRECT!\n" << endl;
     return CardTest::correct(card);
   }
@@ -92,7 +96,7 @@ CardTest::Result query(Card &card){
     return CardTest::skip(card);
   }
 
-  cout << "A: " << card.answer_ << '\n'
+  cout << "A: " << card.getAnswer() << '\n'
        << "You got the right answer?  " << CardCommandMap::instance() << endl;
 
   return CardCommandMap::instance().query("")(card);
@@ -101,18 +105,23 @@ CardTest::Result query(Card &card){
 
 
 bool makeCardCommand(FiledCardlist &cl){
-  Card card;
+  SimpleCard card;
+  string qbuff, abuff;
 
   cout << "making a card.\n"
        << "\tQuestion: " << flush;
-  getline(cin, card.question_);
-  if(card.question_.empty())
+  getline(cin, qbuff);
+  if(qbuff.empty())
     goto ERROR;
+  else
+    card.setQuestion(std::move(qbuff));
 
   cout << "\tAnswer  : " << flush;
-  getline(cin, card.answer_);
-  if(card.answer_.empty())
+  getline(cin, abuff);
+  if(abuff.empty())
     goto ERROR;
+  else
+    card.setAnswer(std::move(abuff));
 
   cout << card;
   cl.add(std::move(card));

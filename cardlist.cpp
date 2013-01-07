@@ -5,25 +5,25 @@ using namespace boost::posix_time;
 
 
 
-list<Card>::size_type Cardlist::expnum() const{
+list<SimpleCard>::size_type Cardlist::expnum() const{
   const ptime current = second_clock::local_time();
-  list<Card>::size_type n = 0;
-  for(auto it=l_.begin(); it->getNexptime() < current && it!=l_.end(); ++it)
+  list<SimpleCard>::size_type n = 0;
+  for(auto it=l_.begin(); it!=l_.end() && it->getNexptime() < current; ++it)
     ++n;
   return n;
 }
 
 void Cardlist::search(const string &str){
-  function<bool(const Card &)> contain_str =
-    [&str](const Card &card) {
-    return card.question_.find(str) != string::npos;
+  function<bool(const SimpleCard &)> contain_str =
+    [&str](const SimpleCard &card) {
+    return card.getQuestion().find(str) != string::npos;
   };
   operate(contain_str, always_true);
 }
 
 
 ostream &operator<<(ostream &out, const Cardlist &cl){
-  for(const Card &card : cl.l_)
+  for(const SimpleCard &card : cl.l_)
     out << card;
   return out;
 }
@@ -31,18 +31,18 @@ ostream &operator<<(ostream &out, const Cardlist &cl){
 istream &operator>>(istream &in, Cardlist &cl){
   try{
     while(true){
-      Card card;
+      SimpleCard card;
       in >> card;
       cl.l_.push_back(card);
     }
   }
-  catch(Card::FailedMaking &e){
+  catch(SimpleCard::FailedMaking &e){
   }
   return in;
 }
 
 
-static void success_operation(list<Card> &updated, list<Card> &on_operation, list<Card>::iterator &it){
+static void success_operation(list<SimpleCard> &updated, list<SimpleCard> &on_operation, list<SimpleCard>::iterator &it){
   auto ittemp = it++;
   updated.splice
     (std::lower_bound
@@ -50,9 +50,9 @@ static void success_operation(list<Card> &updated, list<Card> &on_operation, lis
 }
 
 
-void Cardlist::operate(const function<bool(const Card &)> &do_test, const function<bool(const Card &)> &do_continue){
+void Cardlist::operate(const function<bool(const SimpleCard &)> &do_test, const function<bool(const SimpleCard &)> &do_continue){
   auto it = l_.begin();
-  list<Card> updated;
+  list<SimpleCard> updated;
   bool finish_flag = false;
   while( !finish_flag && it!=l_.end() && do_continue(*it) ){
     if( !do_test(*it) ){

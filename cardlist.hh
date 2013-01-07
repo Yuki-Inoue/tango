@@ -10,11 +10,11 @@
 #include <boost/serialization/list.hpp>
 
 
-inline bool always_true(const Card &){
+inline bool always_true(const SimpleCard &){
   return true;
 }
 
-inline bool card_expired(const Card &card){
+inline bool card_expired(const SimpleCard &card){
   return card.expired();
 }
 
@@ -25,7 +25,7 @@ inline bool card_expired(const Card &card){
 //              all the cards' question and answer not empty
 //              except for the last_created_.
 class Cardlist {
-  std::list<Card> l_;
+  std::list<SimpleCard> l_;
 
 
   // operators
@@ -38,21 +38,21 @@ private:
 public:
   void test(){ operate(always_true, card_expired); }
   void search(const std::string &str);
-  void operate(const std::function<bool(const Card &)> &do_test, const std::function<bool(const Card &)> &do_continue);
-  void add(Card &&card){ mystd::addWithOrder(l_, std::move(card)); }
-  void add(const Card &card){ mystd::addWithOrder(l_, card); }
+  void operate(const std::function<bool(const SimpleCard &)> &do_test, const std::function<bool(const SimpleCard &)> &do_continue);
+  void add(SimpleCard &&card){ mystd::addWithOrder(l_, std::move(card)); }
+  void add(const SimpleCard &card){ mystd::addWithOrder(l_, card); }
 
 
 
   // conditions
   // nexptime is pos_infin if empty
 public:
-  std::list<Card>::size_type size() const { return l_.size(); }
+  std::list<SimpleCard>::size_type size() const { return l_.size(); }
   boost::posix_time::ptime nexptime() const {
     using namespace boost::posix_time;
     return l_.empty() ? ptime(pos_infin) : l_.front().getNexptime();
   }
-  std::list<Card>::size_type expnum() const;
+  std::list<SimpleCard>::size_type expnum() const;
 
 
 

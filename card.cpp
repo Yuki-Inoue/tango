@@ -7,24 +7,24 @@ using namespace boost::posix_time;
 
 
 
-void Card::correctUpdate(){
-  crct_++;
+void NexptimeModuleBase::correctUpdate(){
+  setCrct(getCrct()+1);
   ptime current(second_clock::local_time());
-  nexptime_ = current + hours( inchourbycrct() );
+  setNexptime(current + hours( inchourbycrct() ));
   anneal();
 }
 
-void Card::wrongUpdate(){
-  crct_ = 0;
+void NexptimeModuleBase::wrongUpdate(){
+  setCrct(0U);
 }
 
-void Card::anneal(){
+void NexptimeModuleBase::anneal(){
   unsigned rsec = inchourbycrct() * 60 * 60;
   unsigned range = 2*rsec+1;
-  nexptime_ += seconds(rand()%range - rsec);
+  setNexptime( getNexptime() + seconds(rand()%range - rsec) );
 }
 
-ostream &operator<<(ostream &os, const Card &card){
+ostream &operator<<(ostream &os, const SimpleCard &card){
   os << card.nexptime_ << endl;
   os << card.crct_ << endl;
   os << card.question_ << endl;
@@ -33,7 +33,7 @@ ostream &operator<<(ostream &os, const Card &card){
   return os;
 }
 
-istream &operator>>(istream &is, Card &card){
+istream &operator>>(istream &is, SimpleCard &card){
 
   is >> card.nexptime_;
   if (card.nexptime_.is_not_a_date_time())
@@ -55,5 +55,5 @@ istream &operator>>(istream &is, Card &card){
   return is;
 
  ERROR:
-  throw Card::FailedMaking();
+  throw SimpleCard::FailedMaking();
 }
