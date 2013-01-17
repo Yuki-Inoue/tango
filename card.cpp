@@ -16,6 +16,7 @@ void NexptimeModuleBase::correctUpdate(){
 
 void NexptimeModuleBase::wrongUpdate(){
   setCrct(0U);
+  setNexptime(second_clock::local_time() - seconds(1));
 }
 
 void NexptimeModuleBase::anneal(){

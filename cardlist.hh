@@ -53,6 +53,7 @@ public:
     return l_.empty() ? ptime(pos_infin) : l_.front().getNexptime();
   }
   std::list<SimpleCard>::size_type expnum() const;
+  double knowledge() const;
 
 
 

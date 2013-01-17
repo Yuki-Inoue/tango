@@ -38,11 +38,16 @@ public:
 
   void correctUpdate();
   void wrongUpdate();
+
+
+  // properties
 public:
   bool expired() const {
     using namespace boost::posix_time;
     return getNexptime() < ptime(second_clock::local_time());
   }
+  unsigned inchourbycrct() const { return 1U << getCrct(); }
+
 
   // operators
 public:
@@ -56,9 +61,22 @@ public:
 
 
 private:
-  unsigned inchourbycrct() const { return 1U << getCrct(); }
   void anneal();
 };
+
+inline double validity
+(const NexptimeModuleBase &nexpmodule,
+ boost::posix_time::ptime current
+ = boost::posix_time::second_clock::local_time())
+{
+  double remain = (nexpmodule.getNexptime() - current).total_seconds();
+  double valid_span = nexpmodule.inchourbycrct() * 3600;
+  double validity = remain / valid_span;
+  if (validity > 2)
+    //    throw("too much validity")
+    ;
+  return validity;
+}
 
 
 

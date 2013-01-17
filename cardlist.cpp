@@ -13,6 +13,15 @@ list<SimpleCard>::size_type Cardlist::expnum() const{
   return n;
 }
 
+double Cardlist::knowledge() const {
+  const ptime current = second_clock::local_time();
+  double total = 0.0;
+  for(const auto &card : l_)
+    total += validity(card, current);
+  return total;
+}
+
+
 void Cardlist::search(const string &str){
   function<bool(const SimpleCard &)> contain_str =
     [&str](const SimpleCard &card) {
@@ -42,7 +51,7 @@ istream &operator>>(istream &in, Cardlist &cl){
 }
 
 
-static void success_operation(list<SimpleCard> &updated, list<SimpleCard> &on_operation, list<SimpleCard>::iterator &it){
+static void card_updated(list<SimpleCard> &updated, list<SimpleCard> &on_operation, list<SimpleCard>::iterator &it){
   auto ittemp = it++;
   updated.splice
     (std::lower_bound
@@ -60,11 +69,11 @@ void Cardlist::operate(const function<bool(const SimpleCard &)> &do_test, const 
       continue;
     }
     switch(query(*it)) {
+      // for validity reason, we do update in fail (wrongUpdate)
+      // so we will treat this FAIL as card being (a possibility of) updated
     case CardTest::SUCCESS:
-      success_operation(updated, l_, it);
-      break;
     case CardTest::FAIL:
-      ++it;
+      card_updated(updated, l_, it);
       break;
     case CardTest::DELETE:
       l_.erase(it++);

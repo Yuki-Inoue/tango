@@ -212,7 +212,8 @@ int main(int argc, char *argv[]){
       cout << "skipping this archive since no expired card\n" << endl;
       continue;
     }
-    do cout << "# of expired: " << cl.expnum() << endl;
+    do cout << "# of expired: " << cl.expnum() << '\n'
+	    << "Knowledge   : " << cl.knowledge() << endl;
     while(CardlistCommandMap::instance().query()(cl));
   }
 
