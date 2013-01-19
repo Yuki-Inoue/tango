@@ -75,7 +75,7 @@ inline double validity
   if (validity > 2)
     //    throw("too much validity")
     ;
-  return validity;
+  return validity >= 0.0 ? validity : 0.0;
 }
 
 
