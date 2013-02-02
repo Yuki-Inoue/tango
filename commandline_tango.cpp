@@ -19,6 +19,7 @@ typedef FileManager<Cardlist> FiledCardlist;
 
 
 
+static bool exitflag = false;
 
 
 
@@ -171,13 +172,13 @@ bool searchCommand(FiledCardlist &cl){
 }
 
 bool quitAllCommand(FiledCardlist &){
-  exit(0);
+  exitflag = true;
   return false;
 }
 
 bool writeQuitAllCommand(FiledCardlist &cl){
   cl.write();
-  exit(0);
+  exitflag = true;
   return false;
 }
 
@@ -230,6 +231,8 @@ int main(int argc, char *argv[]){
     do cout << "# of expired: " << cl.expnum() << '\n'
 	    << "Knowledge   : " << cl.knowledge() << endl;
     while(CardlistCommandMap::instance().query()(cl));
+    if(exitflag)
+      break;
   }
 
   return 0;
