@@ -170,6 +170,19 @@ bool searchCommand(FiledCardlist &cl){
   return true;
 }
 
+bool quitAllCommand(FiledCardlist &){
+  exit(0);
+  return false;
+}
+
+bool writeQuitAllCommand(FiledCardlist &cl){
+  cl.write();
+  exit(0);
+  return false;
+}
+
+
+
 
 class CardlistCommandMap : public CommandMap<bool (*)(FiledCardlist &)> {
 
@@ -177,11 +190,13 @@ class CardlistCommandMap : public CommandMap<bool (*)(FiledCardlist &)> {
     map_["w"] = writeCommand;
     map_["q"] = quitCommand;
     map_["wq"] = writeQuitCommand;
+    map_["wqa"] = writeQuitAllCommand;
     map_["t"] = testCommand;
     map_["m"] = makeCardCommand;
     map_["l"] = listCommand;
     map_["i"] = infoCommand;
     map_["s"] = searchCommand;
+    map_["qa"] = quitAllCommand;
   }
 
 public:
