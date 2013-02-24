@@ -34,7 +34,8 @@ top level loop:
   * 'm'   : make card
   * 'q'   : quit current archive
   * 'qa'  : quit the program
-  * 's'   : search cards
+  * 's'   : search cards;
+            search done by finding substring of query
   * 't'   : test cards
   * 'w'   : save cards to the archive file
   * 'wq'  : save and quit the archive
