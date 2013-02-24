@@ -25,7 +25,7 @@ assumed environment: Mac OS X, macports, boost port, gcc47 port, cpplib
 
 
 synopsis:
-  tango <archive file> [<archive file> ...]
+  path-to-tango <archive file> [<archive file> ...]
 
 
 top level loop:
