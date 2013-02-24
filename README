@@ -1,6 +1,51 @@
 A Flash Card System in C++.
 
+This tool manages the making, testing, editting of
+simple flash cards.
+A flash card has a question string and an answer string.
+User can check whether he remembers the answer corresponding
+to the question; question appears, user checks himself whether
+he remembers it, and press 'ENTER', and see the answer, and
+user can tell this program whether he successfully answered or not.
+The more a user answers a card correct consecutively, the less the card
+will appear on the test.
 
-card.hh: defines class Card. represents a card.
-cardlist.hh: defines class Cardlist. represents a card list.
-command_tango.cpp : commandline implementation of card system.
+
+sources:
+  card.hh: defines class Card. represents a card.
+  cardlist.hh: defines class Cardlist. represents a card list.
+  command_tango.cpp : commandline implementation of card system.
+
+
+assumed environment: Mac OS X, macports, boost port, gcc47 port, cpplib
+  * the boost libraries are assumed to be installed to the
+    default destination: /opt/local/{lib,includes}
+  * cpplib is in https://github.com/Yuki-Inoue/cpplib
+  * see Makefile and override it to build on other envs
+
+
+synopsis:
+  tango <archive file> [<archive file> ...]
+
+
+top level loop:
+  * 'i'   : info about cards
+  * 'l'   : list all the cards
+  * 'm'   : make card
+  * 'q'   : quit current archive
+  * 'qa'  : quit the program
+  * 's'   : search cards
+  * 't'   : test cards
+  * 'w'   : save cards to the archive file
+  * 'wq'  : save and quit the archive
+  * 'wqa' : save the archive, quit the program
+
+on test loop:
+  * 'e'   : edit the testing card
+  * 'i'   : info about the testing card
+  * 'n'   : tell program that you failed to answer correctly
+  * 'q'   : quit the testing cards
+  * 's'   : skip this card
+  * 'x'   : delete this card
+  * 'y'   : tell program that you answered correctly
+
