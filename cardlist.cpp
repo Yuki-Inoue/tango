@@ -30,6 +30,16 @@ void Cardlist::search(const string &str){
   operate(contain_str, always_true);
 }
 
+void Cardlist::search_all(const string &str){
+  function<bool(const SimpleCard &)> contain_str =
+    [&str](const SimpleCard &card) {
+    return
+    card.getQuestion().find(str) != string::npos
+    || card.getAnswer().find(str) != string::npos;
+  };
+  operate(contain_str, always_true);
+}
+
 
 ostream &operator<<(ostream &out, const Cardlist &cl){
   for(const SimpleCard &card : cl.l_)

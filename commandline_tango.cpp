@@ -171,6 +171,15 @@ bool searchCommand(FiledCardlist &cl){
   return true;
 }
 
+bool searchAllCommand(FiledCardlist &cl){
+  string query;
+  cout << "\tquery: " << flush;
+  getline(cin, query);
+  cl.search_all(query);
+  return true;
+}
+
+
 bool quitAllCommand(FiledCardlist &){
   exitflag = true;
   return false;
@@ -197,6 +206,7 @@ class CardlistCommandMap : public CommandMap<bool (*)(FiledCardlist &)> {
     map_["l"] = listCommand;
     map_["i"] = infoCommand;
     map_["s"] = searchCommand;
+    map_["sa"] = searchAllCommand;
     map_["qa"] = quitAllCommand;
   }
 

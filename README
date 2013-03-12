@@ -35,7 +35,8 @@ top level loop:
   * 'q'   : quit current archive
   * 'qa'  : quit the program
   * 's'   : search cards;
-            search done by finding substring of query
+            search done by matching substring of question
+  * 'sa'  : search cards by matching Q and A
   * 't'   : test cards
   * 'w'   : save cards to the archive file
   * 'wq'  : save and quit the archive

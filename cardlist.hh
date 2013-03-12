@@ -37,7 +37,10 @@ private:
   // operations
 public:
   void test(){ operate(always_true, card_expired); }
+  // search for question substring
   void search(const std::string &str);
+  // search for question and answer
+  void search_all(const std::string &str);
   void operate(const std::function<bool(const SimpleCard &)> &do_test, const std::function<bool(const SimpleCard &)> &do_continue);
   void add(SimpleCard &&card){ mystd::addWithOrder(l_, std::move(card)); }
   void add(const SimpleCard &card){ mystd::addWithOrder(l_, card); }
