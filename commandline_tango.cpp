@@ -82,8 +82,7 @@ CardTest::Result query(SimpleCard &card){
   cout << "Q: " << card.getQuestion() << '\n'
        << "(press RET to see answer. Other keys ignored, except for '" << quit << "' and '" << skip << "')" << endl;
 
-  string buf;
-  getline(cin, buf);
+    string buf = readstring("");
   if(!buf.compare(quit))
     return CardTest::quit(card);
   if(!buf.compare(card.getAnswer())){
@@ -160,17 +159,15 @@ bool infoCommand(FiledCardlist &cl){
 }
 
 bool searchCommand(FiledCardlist &cl){
-  string query;
-  cout << "\tquery: " << flush;
-  getline(cin, query);
+  string query =
+    readstring("    query: ");
   cl.search(query);
   return true;
 }
 
 bool searchAllCommand(FiledCardlist &cl){
-  string query;
-  cout << "\tquery: " << flush;
-  getline(cin, query);
+  string query =
+    readstring("    query: ");
   cl.search_all(query);
   return true;
 }
