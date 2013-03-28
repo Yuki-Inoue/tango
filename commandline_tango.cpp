@@ -2,6 +2,7 @@
 #include "cardlist.hh"
 #include "file_manager.hpp"
 #include <commandmap.hpp>
+#include <readstring.hpp>
 
 #include <string>
 #include <map>
@@ -26,21 +27,18 @@ static bool exitflag = false;
 static CardTest::Result edit(SimpleCard &card){
 
   {
-    string buff;
-    cout << "change the question" << '\n'
-	 << card.getQuestion() << " to: " << flush;
-    getline(cin, buff);
-    if(!buff.empty())
-      card.setQuestion(std::move(buff));
+
+      cout << "change the question" << endl;
+      string buff = readstring(card.getQuestion() + " to: ");
+      if(!buff.empty())
+          card.setQuestion(std::move(buff));
   }
 
   {
-    string buff;
-    cout << "change the answer" << '\n'
-	 << card.getAnswer() << " to: " << flush;
-    getline(cin, buff);
-    if(!buff.empty())
-      card.setAnswer(std::move(buff));
+      cout << "change the answer" << endl;
+      string buff = readstring(card.getAnswer() + " to: ");
+      if(!buff.empty())
+          card.setAnswer(std::move(buff));
   }
 
   return CardTest::RETRY;
@@ -109,16 +107,14 @@ bool makeCardCommand(FiledCardlist &cl){
   SimpleCard card;
   string qbuff, abuff;
 
-  cout << "making a card.\n"
-       << "\tQuestion: " << flush;
-  getline(cin, qbuff);
+    cout << "making a card." << endl;
+    qbuff = readstring("    Question: ");
   if(qbuff.empty())
     goto ERROR;
   else
     card.setQuestion(std::move(qbuff));
 
-  cout << "\tAnswer  : " << flush;
-  getline(cin, abuff);
+    abuff = readstring("    Answer  : ");
   if(abuff.empty())
     goto ERROR;
   else

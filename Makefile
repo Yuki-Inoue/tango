@@ -11,7 +11,7 @@
 # variables that consider implicit rules
 CXX = g++-mp-4.7 -std=c++11
 CXXFLAGS = -I../cpplib -I/opt/local/includes
-LDLIBS = -L/opt/local/lib -lboost_serialization-mt -lboost_date_time-mt
+LDLIBS = -L/opt/local/lib -lboost_serialization-mt -lboost_date_time-mt -lreadline
 
 
 OBJS = card.o cardlist.o commandline_tango.o
