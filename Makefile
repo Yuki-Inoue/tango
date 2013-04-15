@@ -21,7 +21,7 @@ tango: $(OBJS)
 
 card.o: card.cpp card.hh
 cardlist.o: cardlist.cpp card.hh cardlist.hh orderedList.hpp
-commandline_tango.o: commandline_tango.cpp cardlist.hh ../cpplib/file_manager.hpp
+commandline_tango.o: commandline_tango.cpp cardlist.hh ../cpplib/file_manager.hpp ../cpplib/readstring.hpp ../cpplib/commandmap.hpp
 
 .PHONY: clean
 
