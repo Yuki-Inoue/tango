@@ -9,8 +9,8 @@
 #CPP = c++ -std=c++11 -stdlib=libc++
 
 # variables that consider implicit rules
-CXX = g++-mp-4.7 -std=c++11
-CXXFLAGS = -I../cpplib -I/opt/local/includes
+CXX = c++ -std=c++11 -stdlib=libc++
+CXXFLAGS = -I../cpplib -I/opt/local/include
 LDLIBS = -L/opt/local/lib -lboost_serialization-mt -lboost_date_time-mt -lreadline
 
 
