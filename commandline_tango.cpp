@@ -23,22 +23,31 @@ typedef FileManager<Cardlist> FiledCardlist;
 static bool exitflag = false;
 
 
+template <class Str1, class Str2>
+std::string edit_operation(Str1 &&original, Str2 &&edit_to){
+    if(edit_to.empty()) return std::forward<Str1>(original);
+    if(edit_to[0] != '+') return std::forward<Str2>(edit_to);
+    return std::forward<Str1>(original)
+	+ std::string(edit_to.begin()+1, edit_to.end());
+}
+
 
 static CardTest::Result edit(SimpleCard &card){
 
   {
-
       cout << "change the question" << endl;
       string buff = readstring(card.getQuestion() + " to: ");
-      if(!buff.empty())
-          card.setQuestion(std::move(buff));
+      card.setQuestion
+	  (edit_operation
+	   (card.getQuestion(), move(buff)));
   }
 
   {
       cout << "change the answer" << endl;
       string buff = readstring(card.getAnswer() + " to: ");
-      if(!buff.empty())
-          card.setAnswer(std::move(buff));
+      card.setAnswer
+	  (edit_operation
+	   (card.getAnswer(), move(buff)));
   }
 
   return CardTest::RETRY;
