@@ -51,3 +51,7 @@ on test loop:
   * 'x'   : delete this card
   * 'y'   : tell program that you answered correctly
 
+
+About editting:
+  * Enter nothing to specify "Do not change"
+  * Enter '+' at beginning to specify "append"
