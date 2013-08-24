@@ -19,10 +19,9 @@ OBJS = card.o cardlist.o commandline_tango.o
 tango: $(OBJS)
 	$(CXX) -o tango $(OBJS) $(LDLIBS)
 
-
-card.o: card.hh
-cardlist.o: card.hh cardlist.hh orderedList.hpp
-commandline_tango.o: card.hh cardlist.hh ../cpplib/file_manager.hpp ../cpplib/readstring.hpp ../cpplib/commandmap.hpp
+card.o cardlist.o commandline_tango.o : card.hh
+cardlist.o commandline_tango.o : cardlist.hh orderedList.hpp
+commandline_tango.o: ../cpplib/file_manager.hpp ../cpplib/readstring.hpp ../cpplib/commandmap.hpp
 
 .PHONY: clean
 
