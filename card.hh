@@ -213,4 +213,20 @@ namespace CardTest {
 CardTest::Result query(SimpleCard &);
 
 
+
+
+
+class QuestionContainPredicate {
+    std::string str;
+public:
+    explicit QuestionContainPredicate(const std::string &str_)
+	: str(str_) {}
+    explicit QuestionContainPredicate(std::string &&str_)
+	: str(std::move(str_)) {}
+    bool operator()(const SimpleCard &card) const {
+	return card.getQuestion().find(str) != std::string::npos;
+    }
+};
+
+
 #endif

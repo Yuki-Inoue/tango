@@ -22,13 +22,6 @@ double Cardlist::knowledge() const {
 }
 
 
-void Cardlist::search(const string &str){
-  function<bool(const SimpleCard &)> contain_str =
-    [&str](const SimpleCard &card) {
-    return card.getQuestion().find(str) != string::npos;
-  };
-  operate(contain_str, always_true);
-}
 
 void Cardlist::search_all(const string &str){
   function<bool(const SimpleCard &)> contain_str =

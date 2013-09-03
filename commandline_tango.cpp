@@ -168,10 +168,18 @@ bool infoCommand(FiledCardlist &cl){
 }
 
 bool searchCommand(FiledCardlist &cl){
-  string query =
-    readstring("    query: ");
-  cl.search(query);
+  cl.search(readstring("    query: "));
   return true;
+}
+
+bool searchOrMakeCommand(FiledCardlist &cl){
+    string query =
+	readstring("    query: ");
+    if(cl.search_p(query)) {
+	cl.search(std::move(query));
+	return true;
+    }
+    return makeCardCommand(cl);
 }
 
 bool searchAllCommand(FiledCardlist &cl){
@@ -208,6 +216,7 @@ class CardlistCommandMap : public CommandMap<bool (*)(FiledCardlist &)> {
     map_["l"] = listCommand;
     map_["i"] = infoCommand;
     map_["s"] = searchCommand;
+    map_["sm"] = searchOrMakeCommand;
     map_["sa"] = searchAllCommand;
     map_["qa"] = quitAllCommand;
   }

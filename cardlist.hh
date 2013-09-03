@@ -37,8 +37,25 @@ private:
   // operations
 public:
   void test(){ operate(always_true, card_expired); }
+
   // search for question substring
-  void search(const std::string &str);
+    template <class Str>
+    void search(Str &&str){
+	operate
+	    (QuestionContainPredicate
+	     (std::forward<Str>(str)),
+	     always_true);
+    }
+
+    template <class Str>
+    bool search_p(Str &&str) const {
+	return
+	    find_if(l_.begin(), l_.end(),
+		    QuestionContainPredicate
+		    (std::forward<Str>(str)))
+	    != l_.end();
+    }
+
   // search for question and answer
   void search_all(const std::string &str);
   void operate(const std::function<bool(const SimpleCard &)> &do_test, const std::function<bool(const SimpleCard &)> &do_continue);
