@@ -111,21 +111,22 @@ CardTest::Result query(SimpleCard &card){
 
 
 
-bool makeCardCommand(FiledCardlist &cl){
+bool makeCardCommand_impl(FiledCardlist &cl, string qbuff="", string abuff=""){
   SimpleCard card;
-  string qbuff, abuff;
 
     cout << "making a card." << endl;
-    qbuff = readstring("    Question: ");
-  if(qbuff.empty())
-    goto ERROR;
-  else
+    if(qbuff.empty()){
+	qbuff = readstring("    Question: ");
+	if(qbuff.empty())
+	    goto ERROR;
+    }
     card.setQuestion(std::move(qbuff));
 
-    abuff = readstring("    Answer  : ");
-  if(abuff.empty())
-    goto ERROR;
-  else
+    if(abuff.empty()){
+	abuff = readstring("    Answer  : ");
+	if(abuff.empty())
+	    goto ERROR;
+    }
     card.setAnswer(std::move(abuff));
 
   cout << card;
@@ -136,6 +137,12 @@ bool makeCardCommand(FiledCardlist &cl){
   cout << "Failed making card" << endl;
   return true;
 }
+
+
+bool makeCardCommand(FiledCardlist &cl){
+    return makeCardCommand_impl(cl);
+}
+
 
 bool testCommand(FiledCardlist &cl){
   cl.test();
@@ -179,7 +186,7 @@ bool searchOrMakeCommand(FiledCardlist &cl){
 	cl.search(std::move(query));
 	return true;
     }
-    return makeCardCommand(cl);
+    return makeCardCommand_impl(cl,std::move(query));
 }
 
 bool searchAllCommand(FiledCardlist &cl){
