@@ -7,3 +7,4 @@ tango
 /config.h.in
 /config.status
 /configure
+/Makefile
