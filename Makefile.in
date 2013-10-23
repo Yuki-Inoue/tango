@@ -1,0 +1,24 @@
+
+# on mac,
+# ./configure CXXFLAGS="-std=c++11 -stdlib=libc++"
+CXX = @CXX@
+CXXFLAGS = @CXXFLAGS@ @BOOST_CPPFLAGS@
+LIBS = @LIBS@ @BOOST_LDFLAGS@ @BOOST_DATE_TIME_LIB@ @BOOST_SERIALIZATION_LIB@
+
+
+OBJS = card.o cardlist.o commandline_tango.o
+
+tango: $(OBJS)
+	$(CXX) $(CXXFLAGS) -o tango $(OBJS) $(LIBS)
+
+
+include $(OBJS:%.o=%.d)
+
+$(OBJS:%.o=%.d): %.d: %.cpp
+	@echo making dependencies for $<
+	@$(CXX) -MM -MP -MT $*.d -MT $*.o $(CXXFLAGS) $< -o $@
+
+.PHONY: clean
+
+clean:
+	rm -f *.o *.d tango

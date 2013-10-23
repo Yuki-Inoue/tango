@@ -2,7 +2,7 @@
 #define YUKI_INOUE_TANGO_CARD_HH
 
 #include <string>
-
+#include <utility>
 
 #include <boost/operators.hpp>
 
