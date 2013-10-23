@@ -1,6 +1,6 @@
 
 # on mac,
-# ./configure CXXFLAGS="-std=c++11 -stdlib=libc++"
+# ./configure CXXFLAGS=-stdlib=libc++
 CXX = @CXX@
 CXXFLAGS = @CXXFLAGS@ @BOOST_CPPFLAGS@
 LIBS = @LIBS@ @BOOST_DATE_TIME_LIB@ @BOOST_SERIALIZATION_LIB@
