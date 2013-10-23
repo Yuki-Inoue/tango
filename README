@@ -22,7 +22,7 @@ how to build:
    aclocal
    autoheader
    autoconf
-   ./configure # on mac, append CXXFLAGS="-std=c++11 -stdlib=libc++"
+   ./configure # on mac, append CXXFLAGS=-stdlib=libc++
    make
 
 
