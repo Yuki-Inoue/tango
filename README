@@ -17,11 +17,14 @@ sources:
   command_tango.cpp : commandline implementation of card system.
 
 
-assumed environment: Mac OS X, macports, boost port, gcc47 port, cpplib
-  * the boost libraries are assumed to be installed to the
-    default destination: /opt/local/{lib,includes}
-  * cpplib is in https://github.com/Yuki-Inoue/cpplib
-  * see Makefile and override it to build on other envs
+
+how to build:
+   aclocal
+   autoheader
+   autoconf
+   ./configure # on mac, append CXXFLAGS="-std=c++11 -stdlib=libc++"
+   make
+
 
 
 synopsis:
